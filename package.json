@@ -12,5 +12,5 @@
     "devDependencies": {
         "electron": "^1.8.2"
     },
-    "main": "main.js"
+    "main": "back\\main.js"
 }
