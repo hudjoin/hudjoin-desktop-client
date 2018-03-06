@@ -12,5 +12,8 @@
     "devDependencies": {
         "electron": "^1.8.2"
     },
-    "main": "back\\main.js"
+    "main": "back\\main.js",
+    "dependencies": {
+        "winreg": "^1.2.4"
+    }
 }
