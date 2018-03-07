@@ -10,7 +10,8 @@
         "start": "electron ."
     },
     "devDependencies": {
-        "electron": "^1.8.2"
+        "electron": "^1.8.2",
+        "typescript": "^2.7.2"
     },
     "main": "back\\main.js",
     "dependencies": {
