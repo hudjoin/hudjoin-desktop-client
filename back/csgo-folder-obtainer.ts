@@ -1,5 +1,5 @@
 var Registry = require('winreg');
-function csgoFolderFinder(callback) {
+function csgoFolderFinder(callback: Function): void {
     var steamPath;
     var regKey = new Registry({
         hive: Registry.HKCU,
@@ -13,8 +13,6 @@ function csgoFolderFinder(callback) {
             callback(result.value);
         }
     });
-    return 'yolo';
 }
-module.exports = {
-    getFolderPath: csgoFolderFinder
-};
+
+export { csgoFolderFinder as getFolderPath }

@@ -3,7 +3,7 @@ const http = require('http');
 const path = require('path')
 const url = require('url')
 
-const csgoFolderFinder = require('./csgo-folder-obtainer.js')
+import csgoFolderFinder = require('./csgo-folder-obtainer')
 
 let port = 3000;
 let host = '127.0.0.1';
@@ -19,7 +19,7 @@ function createWindow() {
     }))
 }
 
-server = http.createServer(function (req, res) {
+let server = http.createServer(function (req, res) {
     if (req.method == 'POST') {
         console.log("Handling POST request...");
         res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -61,4 +61,4 @@ app.on('window-all-closed', () => {
     app.quit()
 })
 
-csgoFolderFinder.getFolderPath(x=>console.log(x))
+csgoFolderFinder.getFolderPath(x => console.log(x))
