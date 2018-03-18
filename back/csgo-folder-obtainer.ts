@@ -1,12 +1,42 @@
-var Registry = require('winreg');
+const Registry = require('winreg');
+const path = require('path')
+const fs = require('fs')
+const vdf = require('simple-vdf')
+
+const configFileName: string = 'gamestate_integration_hudJoin.cfg'
 
 function csgoFolderFinder() {
-    csgoRegistryPathGetter().then(result => {
-        console.log(result)
+    let promise = new Promise((resolve, reject) => {
+        steamRegistryPathGetter().then(result => {
+            let libraryFolders: string[] = [result.toString()]
+            var libraryVdfFilePath = path.join(result, 'steamapps', 'libraryfolders.vdf')
+            const contents = fs.readFileSync(libraryVdfFilePath).toString()
+            let contentInJson: {} = vdf.parse(contents)
+            for (let i = 1; ; i++) {
+                let element: string = contentInJson['LibraryFolders'][i]
+                if (element === undefined)
+                    break
+                else {
+                    element = element.replace('\\\\', '\\')
+                    libraryFolders.push(element)
+                }
+            }
+            libraryFolders.forEach(element => {
+                let folderPath = path.join(element, 'steamapps', 'common', 'Counter-Strike Global Offensive')
+                if (fs.existsSync(folderPath)) {
+                    fs.createReadStream(path.join('back', configFileName)).pipe(fs.createWriteStream(path.join(folderPath, 'csgo', 'cfg', configFileName)))
+                    resolve(folderPath)
+                }
+            });
+        }, (rejectReason) => {
+            //create new window and ask for directory path
+            //resolve with directory path
+        })
     })
+    return promise
 }
 
-function csgoRegistryPathGetter() {
+function steamRegistryPathGetter() {
     let promise = new Promise(function (resolve, reject) {
         let regKey = new Registry({
             hive: Registry.HKCU,
@@ -24,4 +54,4 @@ function csgoRegistryPathGetter() {
     return promise
 }
 
-export { csgoFolderFinder as getFolderPath }
+export { csgoFolderFinder as placeConfigFile }

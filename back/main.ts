@@ -61,4 +61,4 @@ app.on('window-all-closed', () => {
     app.quit()
 })
 
-csgoFolderFinder.getFolderPath()
+csgoFolderFinder.placeConfigFile()
